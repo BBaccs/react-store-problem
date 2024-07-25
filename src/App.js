@@ -8,7 +8,7 @@ const data = {
     name: 'Tony'
   },
   cashier2: {
-    items: 1,
+    items: 100,
     name: 'John'
   },
   cashier3: {

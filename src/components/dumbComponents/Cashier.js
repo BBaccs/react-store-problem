@@ -16,19 +16,19 @@ function Cashier({ data }) {
 
     const handleClick = () => {
         const inputVal = parseInt(inputRef.current.value, 10);
-       
         console.log('HIIIII', joinQueueRef.current.id);
-
         const result = findCashierByName(joinQueueRef.current.id);
-        console.log(result)
-    
-
-        { console.log('state', cashierState, cashierState[0][1].items + inputVal) }
-
-    //    const result = cashiers.find(([key, cashier]) => cashier.name === name);
-    //    console.log(result);
+        const finalValue = result[1].items + inputVal;
+        setCashierState(prevState => {
+            return prevState.map(([key, cashier]) => {
+                if (cashier.name === result[1].name) {
+                    return [key, { ...cashier, items: finalValue }];
+                }
+                return [key, cashier];
+            });
+        });
     };
-
+    console.log('state', cashierState)
     // useEffect = () => {
 
     // }, [];
@@ -47,14 +47,14 @@ function Cashier({ data }) {
                             className="checkbox joinQueue"
                             type="checkbox"
                             id={`${cashier.name}`}
-                            ref={joinQueueRef} 
+                            ref={joinQueueRef}
                         />
                         <label className='sr-only' htmlFor="joinQueue">Join Queue</label>
                     </div>
                 );
             })}
             <div>
-                <input type="number" id="customerName" ref={inputRef} placeholder="Number of items" />
+                <input type="number" id="numOfItems" ref={inputRef} placeholder="Number of items" />
                 <button onClick={handleClick}>Checkout</button>
             </div>
         </div>

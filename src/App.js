@@ -4,28 +4,36 @@ import Cashier from './components/dumbComponents/Cashier';
 
 const data = {
   cashier1: {
-      items: 5,
-      name: 'Tony'
+    items: 5,
+    name: 'Tony'
   },
   cashier2: {
-      items: 1,
-      name: 'John'
+    items: 1,
+    name: 'John'
   },
   cashier3: {
-      items: 8,
-      name: 'Alice'
+    items: 8,
+    name: 'Alice'
   },
   cashier4: {
-      items: 12,
-      name: 'Bob'
+    items: 12,
+    name: 'Bob'
   },
   cashier5: {
-      items: 7,
-      name: 'Carol'
+    items: 7,
+    name: 'Carol'
   },
   cashier6: {
-      items: 3,
-      name: 'David'
+    items: 3,
+    name: 'David'
+  },
+  cashier7: {
+    items: 30,
+    name: 'Tana'
+  },
+  cashier8: {
+    items: 9,
+    name: 'Red'
   },
 };
 

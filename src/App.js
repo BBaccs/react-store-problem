@@ -44,10 +44,6 @@ function App() {
       <h1>Cashier Lines</h1>
       <p className='text-center'>Add to the line with the lowest queue</p>
       <Cashier data={data} />
-      <div>
-        <input type="text" id="customerName" placeholder="Enter your name" />
-        <button>Checkout</button>
-      </div>
     </div>
   );
 }

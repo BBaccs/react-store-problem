@@ -1,7 +1,6 @@
 import React from 'react';
 import { useState, useRef } from 'react';
 
-
 function Cashier({ data }) {
     const cashiers = Object.entries(data);
     const [cashierState, setCashierState] = useState(cashiers);
@@ -24,16 +23,12 @@ function Cashier({ data }) {
             setCashierState(prevState => {
                 return prevState.map(([key, cashier]) => {
                     if (cashier.name === target) {
-                        console.log(cashier.name, target);
                         return [key, { ...cashier, items: totalValueAdd }];
                     }
-                    console.log('outer', cashier.name);
                     return [key, cashier];
                 });
             });
-    
-            console.log(inputRef.current);
-            inputRef.current.value = ''; // Reset the input field to an empty string
+            inputRef.current.value = '';
         } else {
            alert('Number of items is empty or incorrect');
         }

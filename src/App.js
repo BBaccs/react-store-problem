@@ -1,6 +1,6 @@
 import React from 'react';
 import './styles/styles.css';
-import Cashier from './components/dumbComponents/Cashier';
+import Cashier from './components/Cashier';
 
 const data = {
   cashier1: {
@@ -48,6 +48,3 @@ function App() {
 }
 
 export default App;
-
-
-

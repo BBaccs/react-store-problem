@@ -1,48 +1,43 @@
 import React from 'react';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useRef } from 'react';
 
 
 function Cashier({ data }) {
     const cashiers = Object.entries(data);
     const [cashierState, setCashierState] = useState(cashiers);
     const inputRef = useRef(null);
-    const joinQueueRef = useRef(null);
-
-    const findCashierByName = (name) => {
-        console.log(cashierState,'cashiers', cashiers)
-        return cashierState.find(([key, cashier]) => cashier.name === name);
-    };
-
-    const handleCheckBoxChange = (nameId) => {
-        // console.log('handlechange', nameId, joinQueueRef.current);
-        joinQueueRef.current = nameId;
-        // console.log('handlechange', nameId, joinQueueRef.current);
-    }
 
     const handleClick = () => {
-        const inputVal = parseInt(inputRef.current.value, 10);
-        console.log('should be a name', joinQueueRef.current);
-        const result = findCashierByName(joinQueueRef.current);
-        // console.log('joinQueueRef.current', joinQueueRef.current, 'result', result)
-        let finalValue = result[1].items + inputVal;
-        // console.log('finval', finalValue, 'results', result[1].items, 'inputVal', inputVal )
-        setCashierState(prevState => {
-            return prevState.map(([key, cashier]) => {
-                if (cashier.name === result[1].name) {
-                    console.log(cashier.name, result[1].name)
-                    return [key, { ...cashier, items: finalValue }];
-                }
-                console.log('outer', cashier.name, result[1].name)
-                return [key, cashier];
+        // Check if the input value is empty
+        if (inputRef.current.value.length > 0) {
+            const fewestItems = cashierState.reduce(
+                (lowest, current) => {
+                    return current[1].items < lowest[1].items ? current : lowest;
+                },
+                cashierState[0]
+            );
+    
+            const target = fewestItems[1].name;
+            const inputVal = parseInt(inputRef.current.value, 10);
+            const totalValueAdd = fewestItems[1].items + inputVal;
+    
+            setCashierState(prevState => {
+                return prevState.map(([key, cashier]) => {
+                    if (cashier.name === target) {
+                        console.log(cashier.name, target);
+                        return [key, { ...cashier, items: totalValueAdd }];
+                    }
+                    console.log('outer', cashier.name);
+                    return [key, cashier];
+                });
             });
-        });
-        console.log('state', cashierState)
+    
+            console.log(inputRef.current);
+            inputRef.current.value = ''; // Reset the input field to an empty string
+        } else {
+           alert('Number of items is empty or incorrect');
+        }
     };
-
-    // useEffect(() => {
-    //     console.log('hiu')
-    // }, []);
-
     return (
 
         <div className="cashier-list">
@@ -53,14 +48,6 @@ function Cashier({ data }) {
                         <span className="cashier-number">Cashier {index + 1}:</span>
                         <span className="cashier-name">Name: {cashier.name}</span>
                         <span className="queue-length">{cashier.items} items</span>
-                        <input
-                            className="checkbox joinQueue"
-                            type="checkbox"
-                            id={`${cashier.name}`}
-                            ref={joinQueueRef}
-                            onChange={() => handleCheckBoxChange(cashier.name)}
-                        />
-                        <label className='sr-only' htmlFor="joinQueue">Join Queue</label>
                     </div>
                 );
             })}

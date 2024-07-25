@@ -9,24 +9,23 @@ function Cashier({ data }) {
     const joinQueueRef = useRef(null);
 
     const findCashierByName = (name) => {
-        return cashiers.find(([key, cashier]) => cashier.name === name);
+        console.log(cashierState,'cashiers', cashiers)
+        return cashierState.find(([key, cashier]) => cashier.name === name);
     };
 
     const handleCheckBoxChange = (nameId) => {
-        console.log('handlechange', nameId, joinQueueRef.current);
+        // console.log('handlechange', nameId, joinQueueRef.current);
         joinQueueRef.current = nameId;
-        console.log('handlechange', nameId, joinQueueRef.current);
-
+        // console.log('handlechange', nameId, joinQueueRef.current);
     }
 
     const handleClick = () => {
-
         const inputVal = parseInt(inputRef.current.value, 10);
         console.log('should be a name', joinQueueRef.current);
         const result = findCashierByName(joinQueueRef.current);
-        const finalValue = result[1].items + inputVal;
-
-        // console.log(result[1].name)
+        // console.log('joinQueueRef.current', joinQueueRef.current, 'result', result)
+        let finalValue = result[1].items + inputVal;
+        // console.log('finval', finalValue, 'results', result[1].items, 'inputVal', inputVal )
         setCashierState(prevState => {
             return prevState.map(([key, cashier]) => {
                 if (cashier.name === result[1].name) {

@@ -37,15 +37,6 @@ const data = {
   },
 };
 
-// const data = [
-//   { items: 5, name: 'Tony' },
-//   { items: 15, name: 'John' },
-//   { items: 8, name: 'Alice' },
-//   { items: 12, name: 'Bob' },
-//   { items: 7, name: 'Carol' }
-// ];
-
-
 function App() {
   return (
     <div className="container">
@@ -57,3 +48,6 @@ function App() {
 }
 
 export default App;
+
+
+

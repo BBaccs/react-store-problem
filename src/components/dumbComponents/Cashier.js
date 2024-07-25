@@ -16,7 +16,7 @@ function Cashier({ data }) {
         console.log('handlechange', nameId, joinQueueRef.current);
         joinQueueRef.current = nameId;
         console.log('handlechange', nameId, joinQueueRef.current);
-        
+
     }
 
     const handleClick = () => {
@@ -30,7 +30,7 @@ function Cashier({ data }) {
         setCashierState(prevState => {
             return prevState.map(([key, cashier]) => {
                 if (cashier.name === result[1].name) {
-                    console.log(cashier.name, result[1].name )
+                    console.log(cashier.name, result[1].name)
                     return [key, { ...cashier, items: finalValue }];
                 }
                 console.log('outer', cashier.name, result[1].name)
@@ -40,10 +40,14 @@ function Cashier({ data }) {
         console.log('state', cashierState)
     };
 
+    // useEffect(() => {
+    //     console.log('hiu')
+    // }, []);
+
     return (
 
         <div className="cashier-list">
-            {cashiers.map(([key, cashier], index) => {
+            {cashierState.map(([key, cashier], index) => {
                 // console.log(`Key: ${key}`);
                 return (
                     <div key={key} className="cashier">

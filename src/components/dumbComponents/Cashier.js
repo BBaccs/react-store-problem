@@ -13,17 +13,20 @@ function Cashier({ data }) {
     };
 
     const handleCheckBoxChange = (nameId) => {
-        joinQueueRef = nameId;
+        console.log('handlechange', nameId, joinQueueRef.current);
+        joinQueueRef.current = nameId;
+        console.log('handlechange', nameId, joinQueueRef.current);
         
     }
 
     const handleClick = () => {
+
         const inputVal = parseInt(inputRef.current.value, 10);
-        // console.log('HIIIII', joinQueueRef.current.id);
-        const result = findCashierByName(joinQueueRef.current.id);
+        console.log('should be a name', joinQueueRef.current);
+        const result = findCashierByName(joinQueueRef.current);
         const finalValue = result[1].items + inputVal;
 
-        console.log(result[1].name)
+        // console.log(result[1].name)
         setCashierState(prevState => {
             return prevState.map(([key, cashier]) => {
                 if (cashier.name === result[1].name) {
@@ -36,10 +39,6 @@ function Cashier({ data }) {
         });
         console.log('state', cashierState)
     };
-
-    // useEffect = () => {
-
-    // }, [];
 
     return (
 

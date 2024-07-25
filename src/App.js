@@ -39,7 +39,7 @@ const data = {
 
 function App() {
   return (
-    <div className="container">
+    <div className="main-container container">
       <h1>Cashier Lines</h1>
       <p className='text-center'>Add to the line with the lowest queue</p>
       <Cashier data={data} />

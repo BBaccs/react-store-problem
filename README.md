@@ -1,3 +1,13 @@
+# TODOS:
+
+
+TOTALLY FORGOT THE WHOLE POINT WAS TO LOOP THROUGH AND PICK THE SHORTEST QUE LMAO, no inputs are necessarry!
+Consider breaking the check inputs into a seperate component and managing the checks with state.
+Clear input after it's submitted
+
+
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

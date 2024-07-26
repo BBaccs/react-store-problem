@@ -41,7 +41,7 @@ function Cashier({ data }) {
                 return (
                     <div key={key} className="cashier">
                         <span className="cashier-number">Cashier {index + 1}:</span>
-                        <span className="cashier-name">Name: {cashier.name}</span>
+                        <span className="cashier-name">{cashier.name}</span>
                         <span className="queue-length">{cashier.items} items</span>
                     </div>
                 );

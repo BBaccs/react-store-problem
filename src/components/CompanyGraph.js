@@ -13,7 +13,7 @@ function CompanyGraph({ data }) {
     labels: ['Market Valuation', 'Cash', 'Debt', 'Enterprise Value'],
     datasets: [
       {
-        label: `${companyName} Financials`,
+        label: `${companyName}'s Financials`,
         data: [marketValuation, cash, debt, enterpriseValue],
         backgroundColor: [
           'rgba(75, 192, 192, 0.2)',
@@ -38,10 +38,10 @@ function CompanyGraph({ data }) {
       legend: {
         position: 'top',
       },
-      title: {
-        display: true,
-        text: `${companyName} Financials`,
-      },
+      // title: {
+      //   display: true,
+      //   text: `${companyName}'s Financials`,
+      // },
       tooltip: {
         callbacks: {
           label: function(context) {
@@ -69,9 +69,9 @@ function CompanyGraph({ data }) {
     <Box sx={{ mt: 4 }}>
       <Card>
         <CardContent>
-          <Typography variant="h5" component="div" gutterBottom>
+          {/* <Typography variant="h5" component="div" gutterBottom>
             {companyName} Financials
-          </Typography>
+          </Typography> */}
           <Bar data={chartData} options={options} />
         </CardContent>
       </Card>

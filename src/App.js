@@ -23,12 +23,12 @@ function App() {
         <Typography variant="h3" component="h1" gutterBottom>
           Company Financial Graph
         </Typography>
+        {companyData && <CompanyGraph data={companyData} />}
         <Typography variant="subtitle1" gutterBottom>
           All values are in billion dollars.
         </Typography>
       </Box>
       <CompanyForm onFormSubmit={handleFormSubmit} />
-      {companyData && <CompanyGraph data={companyData} />}
     </Container>
   );
 }

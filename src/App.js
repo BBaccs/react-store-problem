@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Container, Typography, Box } from '@mui/material';
 import CompanyGraph from './components/CompanyGraph';
 
-const API_KEY = 'cqhfe4hr01qm46d7i1h0cqhfe4hr01qm46d7i1hg';
+const API_KEY = 'cqhfhr1r01qm46d7i3agcqhfhr1r01qm46d7i3b0'; 
 
 function App() {
   const [companyData, setCompanyData] = useState(null);
@@ -12,18 +12,33 @@ function App() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const marketValResponse = await axios.get(`https://financialmodelingprep.com/api/v3/market-capitalization/${symbol}?apikey=${API_KEY}`);
-        const cashResponse = await axios.get(`https://financialmodelingprep.com/api/v3/balance-sheet-statement/${symbol}?apikey=${API_KEY}`);
-        const debtResponse = await axios.get(`https://financialmodelingprep.com/api/v3/income-statement/${symbol}?apikey=${API_KEY}`);
+        // Fetch company profile (includes market cap)
+        const profileResponse = await axios.get(`https://finnhub.io/api/v1/stock/profile2?symbol=${symbol}&token=${API_KEY}`);
+        // console.log('Profile Response:', profileResponse);
 
-        const marketValuation = marketValResponse.data[0]?.marketCapitalization / 1e9; // Convert to billions
-        const cash = cashResponse.data[0]?.cashAndCashEquivalents / 1e9; // Convert to billions
-        const debt = debtResponse.data[0]?.totalDebt / 1e9; // Convert to billions
+        // Fetch company financials (includes balance sheet)
+        const financialsResponse = await axios.get(`https://finnhub.io/api/v1/stock/financials?symbol=${symbol}&token=${API_KEY}&statement=bs&freq=annual`);
+        console.log('Financials Response:', financialsResponse);
+
+        const marketValuation = profileResponse.data.marketCapitalization / 1e9; // Convert to billions
+        const cash = financialsResponse.data.balanceSheet[0]?.cashAndCashEquivalents / 1e9; // Convert to billions
+        const debt = financialsResponse.data.balanceSheet[0]?.totalDebt / 1e9; // Convert to billions
 
         setCompanyData({ marketValuation, cash, debt });
-        console.log(companyData)
       } catch (error) {
-        console.error('Error fetching data:', error);
+        if (error.response) {
+          // The request was made, and the server responded with a status code outside of the range of 2xx
+          console.error('Error response data:', error.response.data);
+          console.error('Error response status:', error.response.status);
+          console.error('Error response headers:', error.response.headers);
+        } else if (error.request) {
+          // The request was made, but no response was received
+          console.error('Error request data:', error.request);
+        } else {
+          // Something happened in setting up the request that triggered an Error
+          console.error('Error message:', error.message);
+        }
+        console.error('Error config:', error.config);
       }
     };
 

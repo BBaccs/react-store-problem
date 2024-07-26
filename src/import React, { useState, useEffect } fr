@@ -1,34 +1,34 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { Container, Typography, Box } from '@mui/material';
-import CompanyGraph from './components/CompanyGraph';
 
-const API_KEY = 'cqhfe4hr01qm46d7i1h0cqhfe4hr01qm46d7i1hg';
+const API_KEY = 'cqhfhr1r01qm46d7i3agcqhfhr1r01qm46d7i3b0'; 
+
+
+
+
+
+
+
+
+
+
+
+import React, { useState } from 'react';
+import { Container, Typography, Box } from '@mui/material';
+import CompanyForm from './components/CompanyForm';
+import CompanyGraph from './components/CompanyGraph';
 
 function App() {
   const [companyData, setCompanyData] = useState(null);
-  const [symbol, setSymbol] = useState('AAPL');
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const marketValResponse = await axios.get(`https://financialmodelingprep.com/api/v3/market-capitalization/${symbol}?apikey=${API_KEY}`);
-        const cashResponse = await axios.get(`https://financialmodelingprep.com/api/v3/balance-sheet-statement/${symbol}?apikey=${API_KEY}`);
-        const debtResponse = await axios.get(`https://financialmodelingprep.com/api/v3/income-statement/${symbol}?apikey=${API_KEY}`);
-
-        const marketValuation = marketValResponse.data[0]?.marketCapitalization / 1e9; // Convert to billions
-        const cash = cashResponse.data[0]?.cashAndCashEquivalents / 1e9; // Convert to billions
-        const debt = debtResponse.data[0]?.totalDebt / 1e9; // Convert to billions
-
-        setCompanyData({ marketValuation, cash, debt });
-        console.log(companyData)
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
+  const handleFormSubmit = (data) => {
+    // Convert all values to billions
+    const updatedData = {
+      ...data,
+      marketValuation: data.marketValuation * 1000,
+      cash: data.cash * 1000,
+      debt: data.debt * 1000,
     };
-
-    fetchData();
-  }, [symbol]);
+    setCompanyData(updatedData);
+  };
 
   return (
     <Container>
@@ -40,6 +40,7 @@ function App() {
           All values are in billion dollars.
         </Typography>
       </Box>
+      <CompanyForm onFormSubmit={handleFormSubmit} />
       {companyData && <CompanyGraph data={companyData} />}
     </Container>
   );

@@ -24,9 +24,9 @@ function App() {
           Company Financial Graph
         </Typography>
         {companyData && <CompanyGraph data={companyData} />}
-        <Typography variant="subtitle1" gutterBottom>
+        {/* <Typography variant="subtitle1" gutterBottom>
           All values are in billion dollars.
-        </Typography>
+        </Typography> */}
       </Box>
       <CompanyForm onFormSubmit={handleFormSubmit} />
     </Container>

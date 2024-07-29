@@ -1,10 +1,7 @@
 import React, { useState } from 'react';
-import { Bar } from 'react-chartjs-2';
-import { Card, CardContent, Box, TextField, Button } from '@mui/material';
-import { Chart as ChartJS, BarElement, CategoryScale, LinearScale, Title, Tooltip, Legend } from 'chart.js';
+import { TextField, Button, Box, Card, CardContent, IconButton, Typography } from '@mui/material';
+import EditIcon from '@mui/icons-material/Edit';
 import CompanyGraph from './CompanyGraph';
-
-ChartJS.register(BarElement, CategoryScale, LinearScale, Title, Tooltip, Legend);
 
 function CompanyForm() {
   const [companies, setCompanies] = useState([]);
@@ -14,6 +11,7 @@ function CompanyForm() {
     cash: '',
     debt: '',
   });
+  const [editIndex, setEditIndex] = useState(null);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -31,13 +29,34 @@ function CompanyForm() {
       cash: parseFloat(formValues.cash),
       debt: parseFloat(formValues.debt),
     };
-    setCompanies([...companies, newCompany]);
+
+    if (editIndex !== null) {
+      const updatedCompanies = companies.map((company, index) =>
+        index === editIndex ? newCompany : company
+      );
+      setCompanies(updatedCompanies);
+      setEditIndex(null);
+    } else {
+      setCompanies([...companies, newCompany]);
+    }
+
     setFormValues({ companyName: '', marketValuation: '', cash: '', debt: '' });
-    console.log(companies, 'companiesSTATE');
+  };
+
+  const handleEdit = (index) => {
+    const companyToEdit = companies[index];
+    setFormValues({
+      companyName: companyToEdit.companyName,
+      marketValuation: companyToEdit.marketValuation.toString(),
+      cash: companyToEdit.cash.toString(),
+      debt: companyToEdit.debt.toString(),
+    });
+    setEditIndex(index);
   };
 
   return (
     <Box>
+      <CompanyGraph data={companies} />
       <form onSubmit={handleSubmit}>
         <TextField
           label="Company Name"
@@ -79,10 +98,26 @@ function CompanyForm() {
           margin="normal"
         />
         <Button type="submit" variant="contained" color="primary" sx={{ mt: 2 }}>
-          Add Company
+          {editIndex !== null ? 'Update Company' : 'Add Company'}
         </Button>
       </form>
-      <CompanyGraph data={companies} />
+      {companies.map((company, index) => (
+        <Card key={index} sx={{ mt: 2 }}>
+          <CardContent>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <Box>
+                <Typography variant="h6">{company.companyName}</Typography>
+                <Typography variant="body2">Market Valuation: {company.marketValuation} billion</Typography>
+                <Typography variant="body2">Cash: {company.cash} billion</Typography>
+                <Typography variant="body2">Debt: {company.debt} billion</Typography>
+              </Box>
+              <IconButton onClick={() => handleEdit(index)} color="primary">
+                <EditIcon />
+              </IconButton>
+            </Box>
+          </CardContent>
+        </Card>
+      ))}
     </Box>
   );
 }

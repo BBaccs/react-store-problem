@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from 'react';
+import React from 'react';
 import { Container, Typography, Box } from '@mui/material';
 import CompanyForm from './components/CompanyForm';
 
@@ -16,9 +16,3 @@ function App() {
 }
 
 export default App;
-
-
-
-
-
-

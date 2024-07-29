@@ -68,7 +68,7 @@ function CompanyForm() {
           margin="normal"
         />
         <TextField
-          label="Market Valuation"
+          label="Market Valuation (in billions USD)"
           name="marketValuation"
           value={formValues.marketValuation}
           onChange={handleInputChange}
@@ -78,7 +78,7 @@ function CompanyForm() {
           margin="normal"
         />
         <TextField
-          label="Cash"
+          label="Cash (in billions USD)"
           name="cash"
           value={formValues.cash}
           onChange={handleInputChange}
@@ -88,7 +88,7 @@ function CompanyForm() {
           margin="normal"
         />
         <TextField
-          label="Debt"
+          label="Debt (in billions USD)"
           name="debt"
           value={formValues.debt}
           onChange={handleInputChange}
@@ -107,9 +107,9 @@ function CompanyForm() {
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <Box>
                 <Typography variant="h6">{company.companyName}</Typography>
-                <Typography variant="body2">Market Valuation: {company.marketValuation} billion</Typography>
-                <Typography variant="body2">Cash: {company.cash} billion</Typography>
-                <Typography variant="body2">Debt: {company.debt} billion</Typography>
+                <Typography variant="body2">Market Valuation: {company.marketValuation} billion USD</Typography>
+                <Typography variant="body2">Cash: {company.cash} billion USD</Typography>
+                <Typography variant="body2">Debt: {company.debt} billion USD</Typography>
               </Box>
               <IconButton onClick={() => handleEdit(index)} color="primary">
                 <EditIcon />

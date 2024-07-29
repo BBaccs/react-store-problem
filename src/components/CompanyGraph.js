@@ -5,25 +5,56 @@ import { Chart as ChartJS, BarElement, CategoryScale, LinearScale, Title, Toolti
 
 ChartJS.register(BarElement, CategoryScale, LinearScale, Title, Tooltip, Legend);
 
+const colorSchemes = [
+  {
+    background: 'rgba(75, 192, 192, 0.2)',
+    border: 'rgba(75, 192, 192, 1)',
+  },
+  {
+    background: 'rgba(54, 162, 235, 0.2)',
+    border: 'rgba(54, 162, 235, 1)',
+  },
+  {
+    background: 'rgba(255, 99, 132, 0.2)',
+    border: 'rgba(255, 99, 132, 1)',
+  },
+  {
+    background: 'rgba(153, 102, 255, 0.2)',
+    border: 'rgba(153, 102, 255, 1)',
+  },
+  {
+    background: 'rgba(255, 206, 86, 0.2)',
+    border: 'rgba(255, 206, 86, 1)',
+  },
+  {
+    background: 'rgba(75, 192, 192, 0.2)',
+    border: 'rgba(75, 192, 192, 1)',
+  },
+  // Add more color schemes if needed
+];
+
 function CompanyGraph({ data }) {
   const chartData = {
-    labels: ['Market Valuation', 'Cash', 'Debt', 'Enterprise Value'],
+    labels: ['Market Valuation', 'Enterprise Value', 'Cash', 'Debt'],
     datasets: data.map(({ companyName, marketValuation, cash, debt }, index) => {
       const enterpriseValue = marketValuation + debt - cash;
-
-      const colors = [
-        ['rgba(75, 192, 192, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(255, 99, 132, 0.2)', 'rgba(153, 102, 255, 0.2)'],
-        ['rgba(255, 206, 86, 0.2)', 'rgba(75, 192, 192, 0.2)', 'rgba(153, 102, 255, 0.2)', 'rgba(255, 159, 64, 0.2)'],
-        ['rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(75, 192, 192, 0.2)', 'rgba(153, 102, 255, 0.2)'],
-      ];
-
-      const borderColor = colors[index % colors.length].map(color => color.replace('0.2', '1'));
+      const colorScheme = colorSchemes[index % colorSchemes.length];
 
       return {
         label: `${companyName}'s Financials`,
-        data: [marketValuation, cash, debt, enterpriseValue],
-        backgroundColor: colors[index % colors.length],
-        borderColor: borderColor,
+        data: [marketValuation, enterpriseValue, cash, debt],
+        backgroundColor: [
+          colorScheme.background,
+          colorScheme.background,
+          colorScheme.background,
+          colorScheme.background,
+        ],
+        borderColor: [
+          colorScheme.border,
+          colorScheme.border,
+          colorScheme.border,
+          colorScheme.border,
+        ],
         borderWidth: 1,
       };
     }),

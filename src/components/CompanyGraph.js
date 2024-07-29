@@ -1,35 +1,33 @@
 import React from 'react';
 import { Bar } from 'react-chartjs-2';
-import { Card, CardContent, Typography, Box } from '@mui/material';
+import { Card, CardContent, Box } from '@mui/material';
 import { Chart as ChartJS, BarElement, CategoryScale, LinearScale, Title, Tooltip, Legend } from 'chart.js';
 
 ChartJS.register(BarElement, CategoryScale, LinearScale, Title, Tooltip, Legend);
 
 function CompanyGraph({ data }) {
-  const { companyName, marketValuation, cash, debt } = data;
-  const enterpriseValue = marketValuation + debt - cash;
-
   const chartData = {
     labels: ['Market Valuation', 'Cash', 'Debt', 'Enterprise Value'],
-    datasets: [
-      {
+    datasets: data.map(({ companyName, marketValuation, cash, debt }, index) => {
+      const enterpriseValue = marketValuation + debt - cash;
+
+      const colors = [
+        ['rgba(75, 192, 192, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(255, 99, 132, 0.2)', 'rgba(153, 102, 255, 0.2)'],
+        ['rgba(255, 206, 86, 0.2)', 'rgba(75, 192, 192, 0.2)', 'rgba(153, 102, 255, 0.2)', 'rgba(255, 159, 64, 0.2)'],
+        ['rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(75, 192, 192, 0.2)', 'rgba(153, 102, 255, 0.2)'],
+        // Add more color sets if you expect more companies
+      ];
+
+      const borderColor = colors[index % colors.length].map(color => color.replace('0.2', '1'));
+
+      return {
         label: `${companyName}'s Financials`,
         data: [marketValuation, cash, debt, enterpriseValue],
-        backgroundColor: [
-          'rgba(75, 192, 192, 0.2)',
-          'rgba(54, 162, 235, 0.2)',
-          'rgba(255, 99, 132, 0.2)',
-          'rgba(153, 102, 255, 0.2)'
-        ],
-        borderColor: [
-          'rgba(75, 192, 192, 1)',
-          'rgba(54, 162, 235, 1)',
-          'rgba(255, 99, 132, 1)',
-          'rgba(153, 102, 255, 1)'
-        ],
+        backgroundColor: colors[index % colors.length],
+        borderColor: borderColor,
         borderWidth: 1,
-      },
-    ],
+      };
+    }),
   };
 
   const options = {
@@ -38,13 +36,9 @@ function CompanyGraph({ data }) {
       legend: {
         position: 'top',
       },
-      // title: {
-      //   display: true,
-      //   text: `${companyName}'s Financials`,
-      // },
       tooltip: {
         callbacks: {
-          label: function(context) {
+          label: function (context) {
             let label = context.dataset.label || '';
 
             if (label) {
@@ -69,9 +63,6 @@ function CompanyGraph({ data }) {
     <Box sx={{ mt: 4 }}>
       <Card>
         <CardContent>
-          {/* <Typography variant="h5" component="div" gutterBottom>
-            {companyName} Financials
-          </Typography> */}
           <Bar data={chartData} options={options} />
         </CardContent>
       </Card>

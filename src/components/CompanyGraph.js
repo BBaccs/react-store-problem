@@ -1,3 +1,5 @@
+// CompanyGraph.js
+
 import React from 'react';
 import { Bar } from 'react-chartjs-2';
 import { Card, CardContent, Box } from '@mui/material';

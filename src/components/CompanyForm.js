@@ -1,7 +1,38 @@
+// CompanyForm.js
+
 import React, { useState } from 'react';
 import { TextField, Button, Box, Card, CardContent, IconButton, Typography } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 import CompanyGraph from './CompanyGraph';
+
+const colorSchemes = [
+  {
+    background: 'rgba(75, 192, 192, 0.2)',
+    border: 'rgba(75, 192, 192, 1)',
+  },
+  {
+    background: 'rgba(54, 162, 235, 0.2)',
+    border: 'rgba(54, 162, 235, 1)',
+  },
+  {
+    background: 'rgba(255, 99, 132, 0.2)',
+    border: 'rgba(255, 99, 132, 1)',
+  },
+  {
+    background: 'rgba(153, 102, 255, 0.2)',
+    border: 'rgba(153, 102, 255, 1)',
+  },
+  {
+    background: 'rgba(255, 206, 86, 0.2)',
+    border: 'rgba(255, 206, 86, 1)',
+  },
+  {
+    background: 'rgba(75, 192, 192, 0.2)',
+    border: 'rgba(75, 192, 192, 1)',
+  },
+  // Add more color schemes if needed
+];
 
 function CompanyForm() {
   const [companies, setCompanies] = useState([]);
@@ -54,6 +85,11 @@ function CompanyForm() {
     setEditIndex(index);
   };
 
+  const handleDelete = (index) => {
+    const updatedCompanies = companies.filter((_, i) => i !== index);
+    setCompanies(updatedCompanies);
+  };
+
   return (
     <Box>
       <CompanyGraph data={companies} />
@@ -101,23 +137,31 @@ function CompanyForm() {
           {editIndex !== null ? 'Update Company' : 'Add Company'}
         </Button>
       </form>
-      {companies.map((company, index) => (
-        <Card key={index} sx={{ mt: 2 }}>
-          <CardContent>
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <Box>
-                <Typography variant="h6">{company.companyName}</Typography>
-                <Typography variant="body2">Market Valuation: {company.marketValuation} billion USD</Typography>
-                <Typography variant="body2">Cash: {company.cash} billion USD</Typography>
-                <Typography variant="body2">Debt: {company.debt} billion USD</Typography>
+      {companies.map((company, index) => {
+        const colorScheme = colorSchemes[index % colorSchemes.length];
+        return (
+          <Card key={index} sx={{ mt: 2, borderLeft: `8px solid ${colorScheme.border}` }}>
+            <CardContent>
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <Box>
+                  <Typography variant="h6">{company.companyName}</Typography>
+                  <Typography variant="body2">Market Valuation: {company.marketValuation} billion USD</Typography>
+                  <Typography variant="body2">Cash: {company.cash} billion USD</Typography>
+                  <Typography variant="body2">Debt: {company.debt} billion USD</Typography>
+                </Box>
+                <Box>
+                  <IconButton onClick={() => handleEdit(index)} color="primary">
+                    <EditIcon />
+                  </IconButton>
+                  <IconButton onClick={() => handleDelete(index)} color="secondary">
+                    <DeleteIcon />
+                  </IconButton>
+                </Box>
               </Box>
-              <IconButton onClick={() => handleEdit(index)} color="primary">
-                <EditIcon />
-              </IconButton>
-            </Box>
-          </CardContent>
-        </Card>
-      ))}
+            </CardContent>
+          </Card>
+        );
+      })}
     </Box>
   );
 }
